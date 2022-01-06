@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaojiuwo.mapper.UserInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xiaojiuwo.model.po.UserInfo">
+        <result column="id" property="id" />
+        <result column="create_user" property="createUser" />
+        <result column="update_user" property="updateUser" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="del_flag" property="delFlag" />
+        <result column="version" property="version" />
+        <result column="name" property="name" />
+        <result column="mobile" property="mobile" />
+        <result column="gender" property="gender" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        create_user,
+        update_user,
+        create_time,
+        update_time,
+        del_flag,
+        version,
+        name, mobile, gender
+    </sql>
+
+    <select id="selectByMobile" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from user_info
+        where mobile = #{mobile}
+    </select>
+
+    <select id="userPageXml" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from user_info
+        <where>
+            del_flag = 0
+            <if test="mobile!=null and mobile!=''">
+                 and mobile = #{mobile}
+            </if>
+        </where>
+    </select>
+
+</mapper>
