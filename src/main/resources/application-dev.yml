@@ -19,3 +19,7 @@ spring:
     url: jdbc:mysql://127.0.0.1:22306/selltest?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&rewriteBatchedStatements=true&useAffectedRows=true&useSSL=false
     username: crmtest
     password: crmtest
+
+#elasticsearch
+esHostName: 127.0.0.1
+esPort: 9200
