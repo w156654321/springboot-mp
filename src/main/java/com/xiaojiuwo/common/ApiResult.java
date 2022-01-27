@@ -56,7 +56,7 @@ public class ApiResult<T> {
         return new ApiResult<>(SUCCESSFUL_CODE, SUCCESSFUL_MSG, null);
     }
 
-    public static ApiResult error(String code, String msg) {
+    public static  <T> ApiResult<T> error(String code, String msg) {
         return new ApiResult(code, msg, null);
     }
 
@@ -90,7 +90,7 @@ public class ApiResult<T> {
      * @param data
      * @return
      */
-    public static ApiResult result(String code, String msg, Object data) {
+    public static <T> ApiResult result(String code, String msg, Object data) {
         return new ApiResult<>(code, msg, data);
     }
 
@@ -100,15 +100,15 @@ public class ApiResult<T> {
      *
      * @return Result
      */
-    public static ApiResult fail(ApiResult r) {
+    public static <T> ApiResult<T> fail(ApiResult r) {
         return new ApiResult(r.getCode(), r.getMessage(), r.getData());
     }
 
-    public static ApiResult fail(ErrorType errorType) {
+    public static <T> ApiResult<T> fail(ErrorType errorType) {
         return new ApiResult(errorType.getCode(), errorType.getMsg(),"");
     }
 
-    public static ApiResult fail() {
+    public static <T> ApiResult<T> fail() {
         return new ApiResult(SystemErrorType.SYSTEM_BUSY.getCode(), SystemErrorType.SYSTEM_BUSY.getMsg(), "");
     }
 

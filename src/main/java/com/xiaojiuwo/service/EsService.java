@@ -19,8 +19,6 @@ import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.util.CollectionUtils;
 import org.elasticsearch.core.TimeValue;
 import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.FetchSourceContext;
@@ -55,23 +53,22 @@ public class EsService {
      * @param index
      * @param from
      * @param size
-     * @param queryBuilder
+     * @param boolQueryBuilder
      * @param sortFieldsToAsc
      * @param includeFields
      * @param excludeFields
      * @param timeOut
      * @return
      */
-    public List<Map<String, Object>> searchIndex(String index, int from, int size, QueryBuilder queryBuilder,
+    public List<Map<String, Object>> searchIndex(String index, int from, int size, BoolQueryBuilder boolQueryBuilder,
                                                  Map<String, Boolean> sortFieldsToAsc, String[] includeFields, String[] excludeFields,
                                                  int timeOut) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
         try {
             SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
             //条件
-            if (queryBuilder != null) {
-                BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
-                boolQueryBuilder.must(queryBuilder);
+            if (boolQueryBuilder != null) {
+
                 sourceBuilder.query(boolQueryBuilder);
                 //where.forEach((k, v) -> {
                 //    if (v instanceof Map) {
@@ -173,6 +170,33 @@ public class EsService {
      */
     public boolean insertEsContent(String indexName,String id,String json) throws IOException {
         IndexRequest indexRequest = new IndexRequest(indexName);
+        //XContentBuilder builder = JsonXContent.contentBuilder()
+        //        .startObject()
+        //            .startObject("mappings")
+        //                //.startObject("doc")
+        //                    .startObject("properties")
+        //                        //.startObject("title")
+        //                        //    .field("type","text")
+        //                        //    .field("analyzer","ik_max_word")
+        //                        //.endObject()
+        //                        //.startObject("content")
+        //                        //    .field("type","text")
+        //                        //    .field("index","analyzed")
+        //                        //    .field("analyzer","ik_max_word")
+        //                        //.endObject()
+        //                        .startObject("retailPrice")
+        //                            .field("type","double")
+        //                            //.field("index","not_analyzed")
+        //                        .endObject()
+        //                    .endObject()
+        //                //.endObject()
+        //            .endObject()
+        //            .startObject("settings")
+        //                .field("number_of_shards",3)
+        //                .field("number_of_replicas",1)
+        //            .endObject()
+        //        .endObject();
+        //indexRequest.source(builder);
         indexRequest.id(id);
         indexRequest.source(json, XContentType.JSON);
         IndexResponse response = restHighLevelClient.index(indexRequest, COMMON_OPTIONS);
@@ -207,10 +231,10 @@ public class EsService {
      * @return
      * @throws IOException
      */
-    public boolean deleteIndex(Integer id) throws IOException {
+    public boolean deleteIndex(String id) throws IOException {
         DeleteRequest request = new DeleteRequest(
                 EsConstant.CONTENT_INDEX,
-                id.toString());
+                id);
         DeleteResponse deleteResponse = restHighLevelClient.delete(
                 request,  COMMON_OPTIONS);
         if (deleteResponse.status().getStatus()== RestStatus.OK.getStatus()){
