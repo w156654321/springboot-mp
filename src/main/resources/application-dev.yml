@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 9080
   servlet:
     context-path: /
   tomcat:
@@ -23,3 +23,16 @@ spring:
 #elasticsearch
 esHostName: 127.0.0.1
 esPort: 9200
+
+xxl:
+  job:
+    admin:
+      addresses: http://localhost:8080/xxl-job-admin
+    accessToken:
+    executor:
+      appname: xiaojiuwo-demo-job
+      address:
+      ip:
+      port: 7005
+      logpath: /logs/xxl/job
+      logretentiondays: 60
