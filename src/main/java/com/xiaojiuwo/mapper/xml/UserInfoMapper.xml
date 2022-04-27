@@ -54,4 +54,12 @@
             CAST(retail_price AS UNSIGNED INTEGER) retailPrice
         FROM `commodity_join`
     </select>
+
+    <insert id="saveInfo">
+        insert into user_info1 (name,mobile,gender) values
+        <foreach collection="userInfoList" item="item" index="index" open="" close="" separator=",">
+            (#{item.name},#{item.mobile},#{item.gender})
+        </foreach>
+    </insert>
+
 </mapper>

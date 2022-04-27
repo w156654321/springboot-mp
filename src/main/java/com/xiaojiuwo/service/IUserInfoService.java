@@ -28,4 +28,10 @@ public interface IUserInfoService extends IService<UserInfo> {
 
     void delUser(UserInfoReq userInfoReq);
 
+    void copyUserInfo();
+
+    void insertUserInfo();
+
+    void copyUserInfoOne();
+
 }

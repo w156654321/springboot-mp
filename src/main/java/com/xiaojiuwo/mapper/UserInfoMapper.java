@@ -24,4 +24,6 @@ public interface UserInfoMapper extends BaseMapper<UserInfo> {
 
      List<Map<String,Object>> queryCommodity();
 
+     Integer saveInfo(@Param("userInfoList") List<UserInfo> userInfoList);
+
 }
