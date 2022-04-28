@@ -112,6 +112,15 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
                 threadPoolTaskExecutor);
 
         List<List<UserInfo>> partitionUserInfoList =  Lists.partition(userInfoList, 3000);
+        //非lambda写法
+        //partitionUserInfoList.forEach(row->{
+        //    completionService.submit(new Callable(){
+        //        @Override
+        //        public Object call() throws Exception {
+        //            return userInfoMapper.saveInfo(row);
+        //        }
+        //    });
+        //});
         partitionUserInfoList.forEach(row->{
             Callable callable = (() ->
                     userInfoMapper.saveInfo(row)
