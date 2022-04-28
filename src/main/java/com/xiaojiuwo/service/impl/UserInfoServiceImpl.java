@@ -113,13 +113,12 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
 
         List<List<UserInfo>> partitionUserInfoList =  Lists.partition(userInfoList, 3000);
         partitionUserInfoList.forEach(row->{
-            completionService.submit(new Callable(){
-                @Override
-                public Object call() throws Exception {
-                    return userInfoMapper.saveInfo(row);
-                }
-            });
+            Callable callable = (() ->
+                    userInfoMapper.saveInfo(row)
+            );
+            completionService.submit(callable);
         });
+        //不需要结果可不写
         partitionUserInfoList.forEach(row->{
             try {
                 Integer result =  completionService.take().get();
@@ -136,7 +135,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     public void insertUserInfo(){
         long start = System.currentTimeMillis();
         List<UserInfo> userInfoList = new ArrayList<>();
-        for (int i = 0; i<=1000000;i++){
+        for (int i = 0; i<=1000;i++){
             UserInfo userInfo = new UserInfo();
             Map map = RandomValue.getAddress();
             userInfo.setName(String.valueOf(map.get("name")));
@@ -148,15 +147,14 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         ExecutorCompletionService<Integer> completionService = new ExecutorCompletionService<Integer>(
                 threadPoolTaskExecutor);
 
-        List<List<UserInfo>> partitionUserInfoList =  Lists.partition(userInfoList, 3000);
+        List<List<UserInfo>> partitionUserInfoList =  Lists.partition(userInfoList, 30);
         partitionUserInfoList.forEach(row->{
-            completionService.submit(new Callable(){
-                @Override
-                public Object call() throws Exception {
-                    return userInfoMapper.saveInfo(row);
-                }
-            });
+            Callable callable = (() ->
+                 userInfoMapper.saveInfo(row)
+            );
+            completionService.submit(callable);
         });
+        //不需要结果可不写
         partitionUserInfoList.forEach(row->{
             try {
                 Integer result =  completionService.take().get();
