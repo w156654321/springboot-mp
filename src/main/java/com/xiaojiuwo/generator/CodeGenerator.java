@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
 import com.baomidou.mybatisplus.generator.config.GlobalConfig;
 import com.baomidou.mybatisplus.generator.config.PackageConfig;
 import com.baomidou.mybatisplus.generator.config.StrategyConfig;
-import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.xiaojiuwo.common.BaseModel;
 
@@ -29,11 +28,11 @@ public class CodeGenerator {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://121.36.86.82:22306/selltest?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&rewriteBatchedStatements=true&useAffectedRows=true&useSSL=false");
+        dsc.setUrl("jdbc:mysql://127.0.0.1:22306/selltest?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&rewriteBatchedStatements=true&useAffectedRows=true&useSSL=false");
         // dsc.setSchemaName("public");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
-        dsc.setUsername("crmtest");
-        dsc.setPassword("2X15mHH~!ke!3T2Dyauoip");
+        dsc.setUsername("");
+        dsc.setPassword("");
         mpg.setDataSource(dsc);
 
         // 包配置
